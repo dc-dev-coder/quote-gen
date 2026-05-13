@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuoteGen | Systems Architect Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            .print-only { display: block !important; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+    <div class="max-w-5xl mx-auto py-10 px-6 no-print">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl font-bold text-gray-800">Spiritual Store Quote Generator</h1>
+            <p class="text-gray-500">Select package, add-ons, and apply brotherhood discounts.</p>
+        </header>
+
+        <div class="grid lg:grid-cols-3 gap-6 mb-10">
+            <!-- Starter -->
+            <div onclick="setPackage('Starter', 450)" id="pkg-Starter" class="cursor-pointer border-2 border-transparent bg-white p-6 rounded-xl shadow-sm hover:border-blue-500 transition-all">
+                <h3 class="font-bold text-xl mb-2">Starter</h3>
+                <p class="text-2xl font-bold text-blue-600 mb-4">$450 <span class="text-sm text-gray-400">≈ ₦720k</span></p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li>✓ Up to 30 products</li>
+                    <li>✓ Paystack integration</li>
+                    <li>✓ Mobile Responsive</li>
+                </ul>
+            </div>
+
+            <!-- Growth -->
+            <div onclick="setPackage('Growth', 850)" id="pkg-Growth" class="cursor-pointer border-2 border-blue-500 bg-white p-6 rounded-xl shadow-sm transition-all">
+                <div class="bg-blue-500 text-white text-xs py-1 px-3 rounded-full inline-block mb-2">MOST POPULAR</div>
+                <h3 class="font-bold text-xl mb-2">Growth</h3>
+                <p class="text-2xl font-bold text-blue-600 mb-4">$850 <span class="text-sm text-gray-400">≈ ₦1.36M</span></p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li>✓ Custom UI/UX Design</li>
+                    <li>✓ WhatsApp Order Bot</li>
+                    <li>✓ 3 Months Support</li>
+                </ul>
+            </div>
+
+            <!-- Premium -->
+            <div onclick="setPackage('Premium', 1500)" id="pkg-Premium" class="cursor-pointer border-2 border-transparent bg-white p-6 rounded-xl shadow-sm hover:border-blue-500 transition-all">
+                <h3 class="font-bold text-xl mb-2">Premium</h3>
+                <p class="text-2xl font-bold text-blue-600 mb-4">$1,500 <span class="text-sm text-gray-400">≈ ₦2.4M</span></p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li>✓ Unlimited Products</li>
+                    <li>✓ Crypto Payments</li>
+                    <li>✓ 6 Months Priority</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-10">
+            <!-- Options -->
+            <div class="space-y-8">
+                <div>
+                    <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-gray-400">Add-ons</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="flex items-center p-3 bg-white rounded-lg border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" onchange="toggleAddon('Inventory', 80)" class="mr-3"> Inventory Mgmt (+$80)
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-lg border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" onchange="toggleAddon('Marketing', 60)" class="mr-3"> Email Marketing (+$60)
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-gray-400">Apply Discount</h4>
+                    <select onchange="updateDiscount(this.value)" class="w-full p-3 bg-white border rounded-lg">
+                        <option value="0">No Discount</option>
+                        <option value="5">Friend Discount (5%)</option>
+                        <option value="15">Early Bird (15%)</option>
+                        <option value="50">Partner Discount (50%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="bg-gray-900 text-white p-8 rounded-2xl shadow-xl">
+                <h4 class="font-bold mb-6 text-blue-400 uppercase text-xs tracking-widest">Live Quote Summary</h4>
+                <div class="space-y-4 mb-8">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Package:</span>
+                        <span id="sum-pkg">Growth</span>
+                    </div>
+                    <div id="sum-addons-list" class="text-sm text-gray-500 italic"></div>
+                    <div class="flex justify-between border-t border-gray-800 pt-4">
+                        <span class="text-gray-400">Discount:</span>
+                        <span id="sum-discount" class="text-red-400">0%</span>
+                    </div>
+                </div>
+                <div class="text-3xl font-bold mb-2">
+                    <span id="total-usd">$850</span>
+                </div>
+                <div class="text-xl text-gray-400 mb-8">
+                    ≈ ₦<span id="total-ngn">1,360,000</span>
+                </div>
+                <button onclick="window.print()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold transition-all">
+                    Generate Professional PDF ↗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Print Template -->
+    <div class="hidden print-only p-20 bg-white min-h-screen">
+        <h1 class="text-4xl font-bold mb-2">Project Quote</h1>
+        <p class="text-gray-500 mb-10">Client: Spiritual Store Project | Date: May 13, 2026</p>
+        <div id="print-content" class="text-xl space-y-6">
+            <!-- Populated via JS -->
+        </div>
+        <div class="mt-20 border-t pt-10 text-sm text-gray-400">
+            Prepared by Full-Stack Systems Architect. Valid for 30 days.
+        </div>
+    </div>
+
+    <script>
+        let currentPrice = 850;
+        let selectedPkg = 'Growth';
+        let addons = [];
+        let discountPercent = 0;
+        const NGN_RATE = 1600; // Updated 2026 Rate
+
+        function setPackage(name, price) {
+            currentPrice = price;
+            selectedPkg = name;
+            document.querySelectorAll('[id^="pkg-"]').forEach(el => el.classList.remove('border-blue-500'));
+            document.getElementById(`pkg-${name}`).classList.add('border-blue-500');
+            calculate();
+        }
+
+        function toggleAddon(name, price) {
+            const idx = addons.findIndex(a => a.name === name);
+            if(idx > -1) addons.splice(idx, 1);
+            else addons.push({name, price});
+            calculate();
+        }
+
+        function updateDiscount(val) {
+            discountPercent = parseInt(val);
+            calculate();
+        }
+
+        function calculate() {
+            let addonTotal = addons.reduce((sum, a) => sum + a.price, 0);
+            let subtotal = currentPrice + addonTotal;
+            let discountAmount = subtotal * (discountPercent / 100);
+            let finalUsd = subtotal - discountAmount;
+            
+            document.getElementById('sum-pkg').innerText = selectedPkg;
+            document.getElementById('sum-discount').innerText = discountPercent + '%';
+            document.getElementById('total-usd').innerText = '$' + finalUsd.toLocaleString();
+            document.getElementById('total-ngn').innerText = (finalUsd * NGN_RATE).toLocaleString();
+            
+            document.getElementById('sum-addons-list').innerText = addons.length ? 'Add-ons: ' + addons.map(a => a.name).join(', ') : 'No add-ons selected';
+
+            // Update print template
+            document.getElementById('print-content').innerHTML = `
+                <div class="flex justify-between border-b pb-4"><span>Package: ${selectedPkg}</span> <span>$${currentPrice}</span></div>
+                ${addons.map(a => `<div class="flex justify-between text-gray-600"><span>+ ${a.name}</span> <span>$${a.price}</span></div>`).join('')}
+                <div class="flex justify-between text-red-500 border-t pt-4"><span>Discount Applied:</span> <span>-${discountPercent}%</span></div>
+                <div class="flex justify-between text-3xl font-bold mt-10"><span>Final Total:</span> <span>$${finalUsd.toLocaleString()} / ₦${(finalUsd * NGN_RATE).toLocaleString()}</span></div>
+            `;
+        }
+    </script>
+</body>
+</html>
